@@ -1,2 +1,5 @@
 # Influencer-Defence
- Project by p
+Project by :
+[13129] Mariusz Gajewski
+[] Amadeusz Bistram
+
