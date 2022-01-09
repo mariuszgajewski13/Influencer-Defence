@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class WeaponSwap : MonoBehaviour
 {
-
     public int weaponID = 0;
     
     void Start()
