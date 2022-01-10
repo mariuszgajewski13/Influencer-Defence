@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using TMPro;
 
 public class Shooting : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class Shooting : MonoBehaviour
 
     private float nextTimeToFire = 0f;
 
-    public Text ammoCount;
+    public TextMeshProUGUI ammoCount;
 
     private void Start()
     {
