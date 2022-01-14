@@ -6,14 +6,19 @@ public class CharacterMovement : MonoBehaviour
 {
     CharacterController characterController;
 
-    public float speed = 12f;
-    public float gravity = -9.81f;
+    public float walkingSpeed = 12f;
+    public float runningSpeed = 20f;
+    public float speed;
+    //public float gravity = -9.81f;
+    public float gravity = -20f;
+    public bool isWalking;
 
     public Transform groundCheck;
-    public float groundDistance = 0.4f;
+    //public float groundDistance = 0.4f;
+    public float groundDistance = 1f;
     public LayerMask groundMask;
 
-    public float jumpHeight = 3f;
+    public float jumpHeight = 2f;
 
     Vector3 velocity;
     bool isGrounded;
@@ -25,13 +30,15 @@ public class CharacterMovement : MonoBehaviour
 
     void Update()
     {
+        isWalking = !Input.GetKey(KeyCode.LeftShift);
+        speed = isWalking ? walkingSpeed : runningSpeed;
+
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         
         if(isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
         }
-
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
@@ -40,7 +47,7 @@ public class CharacterMovement : MonoBehaviour
 
         characterController.Move(move * speed * Time.deltaTime);
 
-        if(Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }

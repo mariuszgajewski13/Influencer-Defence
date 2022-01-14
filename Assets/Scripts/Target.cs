@@ -2,12 +2,23 @@ using UnityEngine;
 
 public class Target : MonoBehaviour
 {
-    public float hp = 50f;
+    public int enemyMaxHp = 50;
+    public int enemyHp;
 
-    public void TakeDamege(float amount)
+    public EnemyHealthBar enemyHealthBar;
+
+    public void Start()
     {
-        hp -= amount;
-        if(hp <= 0f)
+        enemyHp = enemyMaxHp;
+        //enemyHealthBar.SetMaxHealth(enemyMaxHp);
+    }
+
+    public void TakeDamage(int amount)
+    {
+        enemyHp -= amount;
+        //enemyHealthBar.SetHealt(enemyHp);
+
+        if (enemyHp <= 0)
         {
             Die();
         }
@@ -17,4 +28,5 @@ public class Target : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
 }

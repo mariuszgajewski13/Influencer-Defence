@@ -7,14 +7,13 @@ public class MouseLook : MonoBehaviour
 
     private Vector2 rotation = Vector2.zero;
 
-    public Camera camera;
+    public new Camera camera;
 
-    public float cameraClamp = 20f;
+    public float cameraClamp = 80f;
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        camera = Camera.main;
     }
 
     void Update()

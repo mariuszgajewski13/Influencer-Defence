@@ -5,7 +5,7 @@ using TMPro;
 
 public class Shooting : MonoBehaviour
 {
-    public float damage = 10f;
+    public int damage = 10;
     public float range = 100f;
     public float impactForce = 30f;
     public float fireRate = 15f;
@@ -46,7 +46,7 @@ public class Shooting : MonoBehaviour
             Shoot();
         }
 
-        if (currentAmmo <= 0 || Input.GetKey(KeyCode.R))
+        if (currentAmmo <= 0 || (Input.GetKey(KeyCode.R) && currentAmmo != maxAmmo))
         {
             StartCoroutine(Reload());
             return;
@@ -86,7 +86,7 @@ public class Shooting : MonoBehaviour
 
             if(target != null)
             {
-                target.TakeDamege(damage);
+                target.TakeDamage(damage);
             }
 
             if(hit.rigidbody != null)
@@ -94,8 +94,8 @@ public class Shooting : MonoBehaviour
                 hit.rigidbody.AddForce(-hit.normal * impactForce);
             }
 
-            GameObject impact =  Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
-            Destroy(impact, 2f);
+            GameObject impact =  Instantiate(impactEffect, hit.point, Quaternion.FromToRotation(Vector3.up, hit.normal));
+            Destroy(impact, 0.5f);
         }
     }
 
