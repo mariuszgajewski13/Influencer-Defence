@@ -26,4 +26,12 @@ public class Player : MonoBehaviour
         currentHealt -= damage;
         healthBar.SetHealt(currentHealt);
     }
+
+    private void Update()
+    {
+        if(currentHealt <= 0)
+        {
+            FindObjectOfType<GameManager>().GameOver();
+        }
+    }
 }
