@@ -9,7 +9,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public Camera Camera;
         public CurveControlledBob motionBob = new CurveControlledBob();
         public LerpControlledBob jumpAndLandingBob = new LerpControlledBob();
-        public RigidbodyFirstPersonController rigidbodyFirstPersonController;
+        public CharacterController FirstPersonController;
         public float StrideInterval;
         [Range(0f, 1f)] public float RunningStrideLengthen;
 
@@ -30,9 +30,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
           //  m_CameraRefocus.GetFocusPoint();
             Vector3 newCameraPosition;
-            if (rigidbodyFirstPersonController.Velocity.magnitude > 0 && rigidbodyFirstPersonController.Grounded)
+            if (FirstPersonController.velocity.magnitude > 0 && FirstPersonController.isGrounded)
             {
-                Camera.transform.localPosition = motionBob.DoHeadBob(rigidbodyFirstPersonController.Velocity.magnitude*(rigidbodyFirstPersonController.Running ? RunningStrideLengthen : 1f));
+                Camera.transform.localPosition = motionBob.DoHeadBob(FirstPersonController.velocity.magnitude*StrideInterval);
                 newCameraPosition = Camera.transform.localPosition;
                 newCameraPosition.y = Camera.transform.localPosition.y - jumpAndLandingBob.Offset();
             }
@@ -43,12 +43,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             Camera.transform.localPosition = newCameraPosition;
 
-            if (!m_PreviouslyGrounded && rigidbodyFirstPersonController.Grounded)
+            if (!m_PreviouslyGrounded && FirstPersonController.isGrounded)
             {
                 StartCoroutine(jumpAndLandingBob.DoBobCycle());
             }
 
-            m_PreviouslyGrounded = rigidbodyFirstPersonController.Grounded;
+            m_PreviouslyGrounded = FirstPersonController.isGrounded;
           //  m_CameraRefocus.SetFocusPoint();
         }
     }
