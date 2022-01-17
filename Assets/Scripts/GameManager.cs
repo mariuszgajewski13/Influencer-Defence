@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
         {
             gameHasEnded = true;
             Debug.Log("You Win!");
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene("Winner");
         }
 
     }
