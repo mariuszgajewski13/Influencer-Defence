@@ -23,8 +23,11 @@ public class CharacterMovement : MonoBehaviour
     Vector3 velocity;
     bool isGrounded;
 
+    private Animator animator;
+
     private void Start()
     {
+        animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
     }
 
@@ -34,9 +37,19 @@ public class CharacterMovement : MonoBehaviour
         speed = isWalking ? walkingSpeed : runningSpeed;
 
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+
+        if (!isWalking)
+        {
+            animator.SetBool("isRunning", true);
+        }
+        else
+        {
+            animator.SetBool("isRunning", false);
+        }
         
         if(isGrounded && velocity.y < 0)
         {
+            animator.SetBool("isJumping", false);
             velocity.y = -2f;
         }
 
@@ -45,12 +58,22 @@ public class CharacterMovement : MonoBehaviour
 
         Vector3 move = (transform.right * x) + (transform.forward * z);
 
-        characterController.Move(move * speed * Time.deltaTime);
+        if(move != Vector3.zero)
+        {
+            characterController.Move(move * speed * Time.deltaTime);
+            animator.SetBool("isMoving", true);
+        }
+        else
+        {
+            animator.SetBool("isMoving", false);
+        }
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
+            animator.SetBool("isJumping", true);
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
+        
 
         velocity.y += gravity * Time.deltaTime;
 

@@ -72,7 +72,7 @@ public class Shooting : MonoBehaviour
     public void Shoot()
     {
         muzzleFlash.Play();
-
+        muzzleFlash.GetComponent<AudioSource>().Play();
         currentAmmo--;
 
         UpdateAmmoText();
