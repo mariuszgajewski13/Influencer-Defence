@@ -19,6 +19,7 @@ public class WaveSpawner : MonoBehaviour
     private int nextWave = 0;
 
     public Transform[] spawnPoints;
+    public Transform enemyParent;
 
     public float timeBeetweenWaves = 5f;
     private float waveCountdown;
@@ -76,10 +77,6 @@ public class WaveSpawner : MonoBehaviour
             Debug.Log("Completed all waves!");
             FindObjectOfType<GameManager>().YouWin();
         }
-        else
-        {
-            nextWave++;
-        }
     }
 
     bool EnemyIsAlive()
@@ -104,6 +101,7 @@ public class WaveSpawner : MonoBehaviour
         for (int i = 0; i < _wave.count; i++)
         {
             SpawnEnemy(_wave.enemy);
+            enemyParent.transform.GetChild(enemyParent.transform.childCount - 1).gameObject.SetActive(true);
             yield return new WaitForSeconds(1f / _wave.rate);
         }
 
@@ -118,7 +116,7 @@ public class WaveSpawner : MonoBehaviour
         //_enemy.gameObject.SetActive(false);
 
         Transform _sp = spawnPoints[Random.Range(0, spawnPoints.Length)];
-        Instantiate(_enemy, _sp.position, _sp.rotation);
+        Instantiate(_enemy, _sp.position, _sp.rotation, enemyParent);
 
     }
 }

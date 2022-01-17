@@ -1768,7 +1768,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &519718452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2904,7 +2904,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0.048000336, y: -0.15078998}
   m_SizeDelta: {x: -0.096, y: -0.274}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8971,6 +8971,36 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 32a69fdb2a3683540a2980880d2b6679, type: 3}
   m_PrefabInstance: {fileID: 1295922295}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1304549822
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1304549823}
+  m_Layer: 0
+  m_Name: EnemiesList
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1304549823
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304549822}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.8469086, y: 8.270808, z: 45.1831}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1312503968 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8f5c7528509a08d40bbb714bd233db7e, type: 3}
@@ -15478,10 +15508,19 @@ MonoBehaviour:
     enemy: {fileID: 519718460}
     count: 3
     rate: 1
+  - name: Influencer
+    enemy: {fileID: 519718460}
+    count: 3
+    rate: 1
+  - name: Influencer
+    enemy: {fileID: 519718460}
+    count: 3
+    rate: 1
   spawnPoints:
   - {fileID: 1991406627}
   - {fileID: 1880407210}
   - {fileID: 1403429940}
+  enemyParent: {fileID: 1304549823}
   timeBeetweenWaves: 1
 --- !u!4 &1951671958
 Transform:
