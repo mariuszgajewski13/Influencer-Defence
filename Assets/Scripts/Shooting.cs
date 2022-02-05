@@ -19,6 +19,7 @@ public class Shooting : MonoBehaviour
     public Camera fpsCam;
     public ParticleSystem muzzleFlash;
     public GameObject impactEffect;
+    public GameObject bloodEffect;
 
     private float nextTimeToFire = 0f;
 
@@ -27,6 +28,7 @@ public class Shooting : MonoBehaviour
     private void Start()
     {
         currentAmmo = maxAmmo;
+        UpdateAmmoText();
     }
 
     void OnEnable()
@@ -87,6 +89,7 @@ public class Shooting : MonoBehaviour
             if(target != null)
             {
                 target.TakeDamage(damage);
+                GameObject blood = Instantiate(bloodEffect, hit.collider.transform.position, Quaternion.FromToRotation(Vector3.up, hit.normal));
             }
 
             if(hit.rigidbody != null)

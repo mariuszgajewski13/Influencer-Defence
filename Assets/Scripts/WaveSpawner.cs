@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class WaveSpawner : MonoBehaviour
 {
@@ -27,10 +28,14 @@ public class WaveSpawner : MonoBehaviour
 
     private SpawnState state = SpawnState.COUNTING;
 
+    public TextMeshProUGUI waveIndex;
+    public TextMeshProUGUI enemiesLeft;
+
     private void Start()
     {
         waveCountdown = timeBeetweenWaves;
-
+        WaveCounter();
+        enemiesLeft.text = "Enemies left: " + waves[nextWave].count.ToString();
         if (spawnPoints.Length == 0)
         {
             Debug.LogError("No spawn point!");
@@ -41,6 +46,7 @@ public class WaveSpawner : MonoBehaviour
     {
         if(state == SpawnState.WAITING)
         {
+            EnemyCounter();
             if (!EnemyIsAlive())
             {
                 WaveClompleted();
@@ -52,6 +58,8 @@ public class WaveSpawner : MonoBehaviour
         {
             if(state != SpawnState.SPAWNING)
             {
+                WaveCounter();
+                enemiesLeft.text = "Enemies left: " + waves[nextWave].count.ToString();
                 StartCoroutine(SpawnWaveCoroutine(waves[nextWave]));
             }
         }
@@ -65,12 +73,10 @@ public class WaveSpawner : MonoBehaviour
     {
         Debug.Log("Wave Completed");
 
-        nextWave++;
-
         state = SpawnState.COUNTING;
         waveCountdown = timeBeetweenWaves;
 
-        if(nextWave + 1 > waves.Length - 1)
+        if(nextWave + 1 > waves.Length-1)
         {
             nextWave = 0;
             Debug.Log("Completed all waves!");
@@ -120,5 +126,15 @@ public class WaveSpawner : MonoBehaviour
         Transform _sp = spawnPoints[Random.Range(0, spawnPoints.Length)];
         Instantiate(_enemy, _sp.position, _sp.rotation);
 
+    }
+
+    void WaveCounter()
+    {
+        waveIndex.text = "Waves left: " + (waves.Length - nextWave).ToString();
+    }
+
+    void EnemyCounter()
+    {
+        enemiesLeft.text = "Enemies left: " + (GameObject.FindGameObjectsWithTag("Enemy").Length).ToString();
     }
 }

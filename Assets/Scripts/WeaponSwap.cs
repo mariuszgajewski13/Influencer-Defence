@@ -6,8 +6,14 @@ public class WeaponSwap : MonoBehaviour
 {
     public int weaponID = 0;
     
+    public GameObject weaponIcons;
+    public GameObject ammoIcons;
+
+    //public Shooting ammoCounter;
+
     void Start()
     {
+        //ammoCounter.transform.GetComponentInChildren<Shooting>();
         SelectWeapon();
     }
 
@@ -52,10 +58,19 @@ public class WeaponSwap : MonoBehaviour
         int i = 0;
         foreach(Transform weapon in transform)
         {
+            weapon.gameObject.GetComponent<Shooting>().UpdateAmmoText();
             if (i == weaponID)
+            {
                 weapon.gameObject.SetActive(true);
+                weaponIcons.transform.GetChild(i).gameObject.SetActive(true);
+                ammoIcons.transform.GetChild(i).gameObject.SetActive(true);
+            }
             else
+            {
                 weapon.gameObject.SetActive(false);
+                weaponIcons.transform.GetChild(i).gameObject.SetActive(false);
+                ammoIcons.transform.GetChild(i).gameObject.SetActive(false);
+            }
             i++;
         }
     }
