@@ -10,7 +10,7 @@ public class WaveSpawner : MonoBehaviour
    public class Wave
     {
         public string name;
-        public Transform enemy;
+        public Target enemyPrefab;
         public int count;
         public float rate;
     }
@@ -52,7 +52,7 @@ public class WaveSpawner : MonoBehaviour
         {
             if(state != SpawnState.SPAWNING)
             {
-                StartCoroutine(SpawnWave(waves[nextWave]));
+                StartCoroutine(SpawnWaveCoroutine(waves[nextWave]));
             }
         }
         else
@@ -96,14 +96,14 @@ public class WaveSpawner : MonoBehaviour
         return true;
     }
 
-    IEnumerator SpawnWave(Wave _wave)
+    IEnumerator SpawnWaveCoroutine(Wave _wave)
     {
         Debug.Log("Spawnig Wave: " + _wave.name);
         state = SpawnState.SPAWNING;
 
         for (int i = 0; i < _wave.count; i++)
         {
-            SpawnEnemy(_wave.enemy);
+            SpawnEnemy(_wave.enemyPrefab);
             yield return new WaitForSeconds(1f / _wave.rate);
         }
 
@@ -112,7 +112,7 @@ public class WaveSpawner : MonoBehaviour
         yield break;
     }
 
-    void SpawnEnemy(Transform _enemy)
+    void SpawnEnemy(Target _enemy)
     {
         Debug.Log("Spawning enemy..." + _enemy.name);
         //_enemy.gameObject.SetActive(false);

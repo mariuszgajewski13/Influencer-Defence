@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
             gameHasEnded = true;
             Debug.Log("Game Over!");
             Invoke("Restart", restartDelay);
+            //new scene or ui panel
         }
 
     }

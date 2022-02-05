@@ -11,11 +11,6 @@ public class MouseLook : MonoBehaviour
 
     public float cameraClamp = 80f;
 
-    void Start()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-    }
-
     void Update()
     {
         rotation.y += Input.GetAxis("Mouse X");

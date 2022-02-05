@@ -3,7 +3,8 @@ using UnityEngine.AI;
 
 public class BasicAIControl : MonoBehaviour
 {
-    public Transform target;
+    public GameObject target;
+    public Transform targetTransform;
     NavMeshAgent agent;
     Rigidbody rb;
 
@@ -11,6 +12,8 @@ public class BasicAIControl : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
+        target = GameObject.FindGameObjectWithTag("Player");
+        targetTransform = target.GetComponent<Transform>();
 
         InvokeRepeating("UpdatePath", 0f, 0.5f);
     }
@@ -18,7 +21,7 @@ public class BasicAIControl : MonoBehaviour
     void UpdatePath()
     {
         if (target != null)
-            agent.SetDestination(target.position);
+            agent.SetDestination(targetTransform.position);
     }
 
     private void Update()

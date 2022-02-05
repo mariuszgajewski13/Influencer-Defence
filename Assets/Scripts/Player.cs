@@ -9,7 +9,6 @@ public class Player : MonoBehaviour
 
     public HealthBar healthBar;
 
-    // Start is called before the first frame update
     void Start()
     {
         currentHealt = maxHealth;
@@ -18,7 +17,10 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        TakeDamage(20);
+        if(other.gameObject.tag == "Enemy")
+        {
+            TakeDamage(20);
+        }
     }
 
     public void TakeDamage(int damage)
