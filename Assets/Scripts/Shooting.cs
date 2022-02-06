@@ -89,7 +89,11 @@ public class Shooting : MonoBehaviour
             if(target != null)
             {
                 target.TakeDamage(damage);
-                GameObject blood = Instantiate(bloodEffect, hit.collider.transform.position, Quaternion.FromToRotation(Vector3.up, hit.normal));
+                
+                GameObject blood = Instantiate(bloodEffect, hit.point, Quaternion.FromToRotation(Vector3.up, hit.normal));
+                blood.transform.SetParent(target.transform);
+                if(target.enemyHp <= 0)
+                    Destroy(blood);
             }
 
             if(hit.rigidbody != null)

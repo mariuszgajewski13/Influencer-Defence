@@ -7,10 +7,15 @@ public class EnemyHealthBar : MonoBehaviour
 {
     public Slider slider;
 
+    private void Start()
+    {
+        slider = GetComponent<Slider>();
+    }
+
     public void SetMaxHealth(int health)
     {
-        slider.maxValue = health;
-        slider.value = health;
+        //slider.maxValue = health;
+        //slider.value = health;
     }
 
     public void SetHealt(int health)

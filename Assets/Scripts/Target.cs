@@ -16,7 +16,7 @@ public class Target : MonoBehaviour
     public void TakeDamage(int amount)
     {
         enemyHp -= amount;
-        enemyHealthBar.SetHealt(enemyHp);
+        //enemyHealthBar.SetHealt(enemyHp);
         if (enemyHp <= 0)
         {
             Die();

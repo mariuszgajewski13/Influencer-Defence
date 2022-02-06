@@ -3,7 +3,7 @@ using UnityStandardAssets.Characters.ThirdPerson;
 
 public class DetectPlayer : MonoBehaviour
 {
-    [SerializeField] Transform playerTransform;
+    private Transform playerTransform;
     [SerializeField] GameObject player;
     [SerializeField] float detectionRange = 6f;
 

@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public class BasicAIControl : MonoBehaviour
 {
     public GameObject target;
-    public Transform targetTransform;
+    private Transform targetTransform;
     NavMeshAgent agent;
     Rigidbody rb;
 
