@@ -82,11 +82,11 @@ public class Weapon : MonoBehaviour
         {
             if (!c.Value) continue;
 
-            Target target = c.Key.transform.GetComponent<Target>();
+            EntityBase target = c.Key.transform.GetComponent<EntityBase>();
 
             if (target != null)
             {
-                target.TakeDamage(damage);
+                target.TakeDamage(damage, c.Key, impactForce);
             }
 
             if (c.Key.rigidbody != null)

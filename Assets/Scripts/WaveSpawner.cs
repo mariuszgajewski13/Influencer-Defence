@@ -11,7 +11,7 @@ public class WaveSpawner : MonoBehaviour
    public class Wave
     {
         public string name;
-        public Target enemyPrefab;
+        public Enemy enemyPrefab;
         public int count;
         public float rate;
     }
@@ -118,7 +118,7 @@ public class WaveSpawner : MonoBehaviour
         yield break;
     }
 
-    void SpawnEnemy(Target _enemy)
+    void SpawnEnemy(Enemy _enemy)
     {
         Debug.Log("Spawning enemy..." + _enemy.name);
         //_enemy.gameObject.SetActive(false);
