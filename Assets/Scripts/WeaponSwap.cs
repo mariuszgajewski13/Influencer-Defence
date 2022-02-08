@@ -58,7 +58,7 @@ public class WeaponSwap : MonoBehaviour
         int i = 0;
         foreach(Transform weapon in transform)
         {
-            weapon.gameObject.GetComponent<Shooting>().UpdateAmmoText();
+            weapon.gameObject.GetComponent<Weapon>().UpdateAmmoText();
             if (i == weaponID)
             {
                 weapon.gameObject.SetActive(true);

@@ -1,14 +1,16 @@
-using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
+using System.Collections.Generic;
+using UnityEngine;
 using TMPro;
 
-public class Shooting : MonoBehaviour
+public class Weapon : MonoBehaviour
 {
     public int damage = 10;
     public float range = 100f;
     public float impactForce = 30f;
     public float fireRate = 15f;
+    public int bulletsPerShot = 1;
+    public float spread = 0.01f;
 
     public int maxAmmo = 10;
     public int currentAmmo;
@@ -25,14 +27,9 @@ public class Shooting : MonoBehaviour
 
     public TextMeshProUGUI ammoCount;
 
-    private void Start()
-    {
-        currentAmmo = maxAmmo;
-        UpdateAmmoText();
-    }
-
     void OnEnable()
     {
+        UpdateAmmoText();
         isReloading = false;
         animator.SetBool("Reloading", false);
     }
@@ -62,7 +59,7 @@ public class Shooting : MonoBehaviour
 
         animator.SetBool("Reloading", true);
 
-        yield return new WaitForSeconds(reloadTime -.25f);
+        yield return new WaitForSeconds(reloadTime - .25f);
         animator.SetBool("Reloading", false);
         yield return new WaitForSeconds(.25f);
 
@@ -71,7 +68,7 @@ public class Shooting : MonoBehaviour
         isReloading = false;
     }
 
-    public void Shoot()
+    private void Shoot()
     {
         muzzleFlash.Play();
         muzzleFlash.GetComponent<AudioSource>().Play();
@@ -79,35 +76,48 @@ public class Shooting : MonoBehaviour
 
         UpdateAmmoText();
 
-        RaycastHit hit;
-        if(Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
+        var casts = SendRandomRaycasts(bulletsPerShot);
+
+        foreach(var c in casts)
         {
-            Debug.Log(hit.transform.name);
+            if (!c.Value) continue;
 
-            Target target = hit.transform.GetComponent<Target>();
+            Target target = c.Key.transform.GetComponent<Target>();
 
-            if(target != null)
+            if (target != null)
             {
                 target.TakeDamage(damage);
-                
-                GameObject blood = Instantiate(bloodEffect, hit.point, Quaternion.FromToRotation(Vector3.up, hit.normal));
-                blood.transform.SetParent(target.transform);
-                if(target.enemyHp <= 0)
-                    Destroy(blood);
             }
 
-            if(hit.rigidbody != null)
+            if (c.Key.rigidbody != null)
             {
-                hit.rigidbody.AddForce(-hit.normal * impactForce);
+                c.Key.rigidbody.AddForce(-c.Key.normal * impactForce);
             }
 
-            GameObject impact =  Instantiate(impactEffect, hit.point, Quaternion.FromToRotation(Vector3.up, hit.normal));
+            GameObject impact = Instantiate(impactEffect, c.Key.point, Quaternion.FromToRotation(Vector3.up, c.Key.normal));
             Destroy(impact, 0.5f);
         }
+    }
+
+    // Useful for shotguns
+    private Dictionary<RaycastHit, bool> SendRandomRaycasts(int numberOfCasts)
+    {
+        Dictionary<RaycastHit, bool> raycasts = new Dictionary<RaycastHit, bool>();
+
+        for (int i = 0; i < numberOfCasts; i++)
+        {
+            RaycastHit raycast;
+            Vector3 randomPoint = Random.insideUnitCircle * spread;
+            bool gotHit = Physics.Raycast(fpsCam.transform.position, (fpsCam.transform.forward + randomPoint).normalized, out raycast, range);
+            raycasts.Add(raycast, gotHit);
+        }
+
+        return raycasts;
     }
 
     public void UpdateAmmoText()
     {
         ammoCount.text = currentAmmo.ToString();
     }
+
 }
