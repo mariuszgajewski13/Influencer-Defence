@@ -27,15 +27,20 @@ public class Weapon : MonoBehaviour
 
     public TextMeshProUGUI ammoCount;
 
+    public AudioSource shotSound;
+    public AudioSource reloadSound;
+
     void OnEnable()
     {
         UpdateAmmoText();
         isReloading = false;
         animator.SetBool("Reloading", false);
+        currentAmmo = maxAmmo;
     }
 
     void Update()
     {
+
         if (isReloading)
             return;
 
@@ -47,12 +52,13 @@ public class Weapon : MonoBehaviour
 
         if (currentAmmo <= 0 || (Input.GetKey(KeyCode.R) && currentAmmo != maxAmmo))
         {
-            StartCoroutine(Reload());
+            StartCoroutine(ReloadCoroutine());
+            reloadSound.Play();
             return;
         }
     }
 
-    IEnumerator Reload()
+    IEnumerator ReloadCoroutine()
     {
         isReloading = true;
         Debug.Log("Reloading...");
@@ -72,6 +78,7 @@ public class Weapon : MonoBehaviour
     {
         muzzleFlash.Play();
         muzzleFlash.GetComponent<AudioSource>().Play();
+        shotSound.Play();
         currentAmmo--;
 
         UpdateAmmoText();

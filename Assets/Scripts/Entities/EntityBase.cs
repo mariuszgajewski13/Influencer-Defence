@@ -11,6 +11,9 @@ public class EntityBase : MonoBehaviour
     public GameObject impactEffect;
     public bool organic = true;
 
+    public AudioSource damagedSound;
+    public AudioSource deathSound;
+
     void Start()
     {
         SetHealth();
@@ -23,7 +26,8 @@ public class EntityBase : MonoBehaviour
         {
             GameObject blood = Instantiate(bloodEffect, r.point, Quaternion.FromToRotation(Vector3.up, r.normal));
             blood.transform.SetParent(transform);
-            Destroy(blood, 0.5f);
+            damagedSound.Play();
+            Destroy(blood, 2f);
         }
 
         if (r.rigidbody != null)
@@ -34,7 +38,11 @@ public class EntityBase : MonoBehaviour
         GameObject impact = Instantiate(impactEffect, r.point, Quaternion.FromToRotation(Vector3.up, r.normal));
         Destroy(impact, 0.5f);
 
-        if (currentHP <= 0) Die();
+        if (currentHP <= 0)
+        {
+            deathSound.Play();
+            Die();
+        }
     }
 
     void Die()

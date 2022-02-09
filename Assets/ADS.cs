@@ -12,7 +12,7 @@ public class ADS : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             Debug.Log("ADS");
             weapon.gameObject.transform.position = new Vector3(0.012f, -0.292f, 0.738f);
