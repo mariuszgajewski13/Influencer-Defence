@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.AI;
 using UnityEngine;
-using UnityStandardAssets.Characters.ThirdPerson;
+using UnityEngine.AI;
 using UnityEngine.UI;
+using UnityStandardAssets.Characters.ThirdPerson;
 
 public class Enemy : EntityBase
 {
@@ -16,7 +14,6 @@ public class Enemy : EntityBase
     private Transform playerTransform;
     [SerializeField] GameObject player;
     [SerializeField] float detectionRange = 6f;
-    public Slider slider;
 
     Vector3 verticalOffset = new Vector3(0, 1f, 0);
     AICharacterControl ai;
@@ -40,22 +37,19 @@ public class Enemy : EntityBase
         playerTransform = player.GetComponent<Transform>();
 
         InvokeRepeating("DetectTick", 1f, 1f);
-        InvokeRepeating("SetVelocity", 1f, 0.5f);
     }
 
     private void Update()
     {
-        slider.value = currentHP / maxHP;
-    }
+        UpdateHealthBar();
 
-    void SetVelocity()
-    {
         if (agent.remainingDistance > agent.stoppingDistance)
             rb.velocity = agent.desiredVelocity;
         else
             rb.velocity = Vector3.zero;
     }
-    
+
+
     void UpdatePath()
     {
         if (target != null)

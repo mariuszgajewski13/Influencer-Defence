@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
@@ -46,8 +44,8 @@ public class CharacterMovement : MonoBehaviour
         {
             animator.SetBool("isRunning", false);
         }
-        
-        if(isGrounded && velocity.y < 0)
+
+        if (isGrounded && velocity.y < 0)
         {
             animator.SetBool("isJumping", false);
             velocity.y = -2f;
@@ -58,7 +56,7 @@ public class CharacterMovement : MonoBehaviour
 
         Vector3 move = (transform.right * x) + (transform.forward * z);
 
-        if(move != Vector3.zero)
+        if (move != Vector3.zero)
         {
             characterController.Move(move * speed * Time.deltaTime);
             animator.SetBool("isMoving", true);
@@ -73,7 +71,7 @@ public class CharacterMovement : MonoBehaviour
             animator.SetBool("isJumping", true);
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
-        
+
 
         velocity.y += gravity * Time.deltaTime;
 

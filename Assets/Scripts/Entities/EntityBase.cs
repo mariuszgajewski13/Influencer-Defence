@@ -1,6 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EntityBase : MonoBehaviour
 {
@@ -14,12 +14,15 @@ public class EntityBase : MonoBehaviour
     public AudioSource damagedSound;
     public AudioSource deathSound;
 
+    [SerializeField] protected Slider slider;
+    [SerializeField] protected TextMeshProUGUI healthUI;
+
     void Start()
     {
         SetHealth();
     }
 
-    public void TakeDamage(float damage, RaycastHit r, float impactForce)
+    public void TakeDamage(float damage, RaycastHit r = new RaycastHit(), float impactForce = 0f)
     {
         currentHP -= damage;
         if (organic)
@@ -45,7 +48,7 @@ public class EntityBase : MonoBehaviour
         }
     }
 
-    void Die()
+    virtual protected void Die()
     {
         Destroy(gameObject);
     }
@@ -53,6 +56,14 @@ public class EntityBase : MonoBehaviour
     protected void SetHealth()
     {
         currentHP = maxHP;
+    }
+
+    protected void UpdateHealthBar()
+    {
+        if (slider != null)
+            slider.value = currentHP / maxHP;
+        if (healthUI != null)
+            healthUI.text = $"{currentHP}/{maxHP}";
     }
 
 }

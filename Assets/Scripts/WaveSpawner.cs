@@ -1,14 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class WaveSpawner : MonoBehaviour
 {
-   public enum SpawnState { SPAWNING, WAITING, COUNTING};
-   
-   [System.Serializable]
-   public class Wave
+    public enum SpawnState { SPAWNING, WAITING, COUNTING };
+
+    [System.Serializable]
+    public class Wave
     {
         public string name;
         public Enemy enemyPrefab;
@@ -44,7 +43,7 @@ public class WaveSpawner : MonoBehaviour
 
     private void Update()
     {
-        if(state == SpawnState.WAITING)
+        if (state == SpawnState.WAITING)
         {
             EnemyCounter();
             if (!EnemyIsAlive())
@@ -54,9 +53,9 @@ public class WaveSpawner : MonoBehaviour
             else return;
         }
 
-        if(waveCountdown <= 0)
+        if (waveCountdown <= 0)
         {
-            if(state != SpawnState.SPAWNING)
+            if (state != SpawnState.SPAWNING)
             {
                 WaveCounter();
                 enemiesLeft.text = "Enemies left: " + waves[nextWave].count.ToString();
@@ -76,7 +75,7 @@ public class WaveSpawner : MonoBehaviour
         state = SpawnState.COUNTING;
         waveCountdown = timeBeetweenWaves;
 
-        if(nextWave + 1 > waves.Length-1)
+        if (nextWave + 1 > waves.Length - 1)
         {
             nextWave = 0;
             Debug.Log("Completed all waves!");
@@ -91,10 +90,10 @@ public class WaveSpawner : MonoBehaviour
     bool EnemyIsAlive()
     {
         searchCountdown -= Time.deltaTime;
-        if(searchCountdown <= 0f)
+        if (searchCountdown <= 0f)
         {
             searchCountdown = 1f;
-            if(GameObject.FindGameObjectsWithTag("Enemy").Length == 0)
+            if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0)
             {
                 return false;
             }

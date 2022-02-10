@@ -1,77 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponSwap : MonoBehaviour
 {
-    public int weaponID = 0;
-    
-    public GameObject weaponIcons;
-    public GameObject ammoIcons;
-
-    //public Shooting ammoCounter;
-
+    private Inventory inventory;
     void Start()
     {
-        //ammoCounter.transform.GetComponentInChildren<Shooting>();
-        SelectWeapon();
+        inventory = GetComponent<Inventory>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        int previousWeapon = weaponID;
+        SwapWeapons();
+    }
 
-        if(Input.GetAxis("Mouse ScrollWheel") > 0f)
+    // Functions getting called twice
+    void SwapWeapons()
+    {
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
         {
-            if (weaponID >= transform.childCount - 1)
-                weaponID = 0;
-            else
-                weaponID++;
+            inventory.NextItem();
+
         }
 
         if (Input.GetAxis("Mouse ScrollWheel") < 0f)
         {
-            if (weaponID <= 0)
-                weaponID = transform.childCount - 1;
-            else
-                weaponID--;
+            inventory.PreviousItem();
+
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        for (int i = 0; i < 10; i++)
         {
-            weaponID = 0;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha2) && transform.childCount >=2)
-        {
-            weaponID = 1;
-        }
-
-        if (previousWeapon != weaponID)
-        {
-            SelectWeapon();
-        }
-    }
-
-    void SelectWeapon()
-    {
-        int i = 0;
-        foreach(Transform weapon in transform)
-        {
-            weapon.gameObject.GetComponent<Weapon>().UpdateAmmoText();
-            if (i == weaponID)
+            if (Input.GetKeyDown("" + i))
             {
-                weapon.gameObject.SetActive(true);
-                weaponIcons.transform.GetChild(i).gameObject.SetActive(true);
-                ammoIcons.transform.GetChild(i).gameObject.SetActive(true);
+                inventory.SelectItem(i);
+
             }
-            else
-            {
-                weapon.gameObject.SetActive(false);
-                weaponIcons.transform.GetChild(i).gameObject.SetActive(false);
-                ammoIcons.transform.GetChild(i).gameObject.SetActive(false);
-            }
-            i++;
         }
+
+
     }
 }

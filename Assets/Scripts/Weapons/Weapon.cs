@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
-public class Weapon : MonoBehaviour
+public class Weapon : Carriable
 {
     public int damage = 10;
     public float range = 100f;
@@ -16,30 +15,44 @@ public class Weapon : MonoBehaviour
     public int currentAmmo;
     public float reloadTime = 1f;
     private bool isReloading = false;
-    public Animator animator;
+    protected Animator animator;
 
-    public Camera fpsCam;
-    public ParticleSystem muzzleFlash;
-    public GameObject impactEffect;
-    public GameObject bloodEffect;
+    protected Camera fpsCam;
+    [SerializeField] protected ParticleSystem muzzleFlash;
+    [SerializeField] protected GameObject impactEffect;
+    [SerializeField] protected GameObject bloodEffect;
 
     private float nextTimeToFire = 0f;
 
-    public TextMeshProUGUI ammoCount;
+    protected AudioSource shotSound;
+    protected AudioSource reloadSound;
 
-    public AudioSource shotSound;
-    public AudioSource reloadSound;
 
     void OnEnable()
     {
+        UpdateBasicStuff();
+        FindUI();
+        UpdateUI();
         UpdateAmmoText();
         isReloading = false;
         animator.SetBool("Reloading", false);
         currentAmmo = maxAmmo;
+
+        shotSound = GetComponentsInChildren<AudioSource>()[0];
+        reloadSound = GetComponentsInChildren<AudioSource>()[1];
+
     }
+
+    void UpdateBasicStuff()
+    {
+        fpsCam = transform.parent.parent.GetComponent<Camera>();
+        animator = transform.parent.GetComponent<Animator>();
+    }
+
 
     void Update()
     {
+        if (!isActiveAndEnabled) return;
 
         if (isReloading)
             return;
@@ -76,8 +89,8 @@ public class Weapon : MonoBehaviour
 
     private void Shoot()
     {
-        muzzleFlash.Play();
-        muzzleFlash.GetComponent<AudioSource>().Play();
+        //muzzleFlash.Play();
+        //muzzleFlash.GetComponent<AudioSource>().Play();
         shotSound.Play();
         currentAmmo--;
 
@@ -85,7 +98,7 @@ public class Weapon : MonoBehaviour
 
         var casts = SendRandomRaycasts(bulletsPerShot);
 
-        foreach(var c in casts)
+        foreach (var c in casts)
         {
             if (!c.Value) continue;
 
@@ -124,7 +137,8 @@ public class Weapon : MonoBehaviour
 
     public void UpdateAmmoText()
     {
-        ammoCount.text = currentAmmo.ToString();
+        displayText = currentAmmo.ToString();
+        UpdateUI();
     }
 
 }

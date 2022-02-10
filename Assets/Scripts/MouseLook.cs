@@ -20,15 +20,15 @@ public class MouseLook : MonoBehaviour
     {
         rotation.y += Input.GetAxis("Mouse X");
         rotation.x += -Input.GetAxis("Mouse Y");
-        
+
         rotation.x = Mathf.Clamp(rotation.x, -cameraClamp, cameraClamp);
-        
+
         transform.eulerAngles = new Vector2(0, rotation.y) * sensitivity;
         camera.transform.localRotation = Quaternion.Euler(rotation.x * sensitivity, 0, 0);
 
 
     }
 
-    
+
 
 }
