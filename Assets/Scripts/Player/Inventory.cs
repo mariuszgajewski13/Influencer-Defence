@@ -21,7 +21,7 @@ public class Inventory : MonoBehaviour
 
     void AddToInventory(Carriable c)
     {
-        var obj = Instantiate(c, c.gameObject.transform.position, c.gameObject.transform.rotation, transform);
+        var obj = Instantiate(c, transform, false);
         inventory.Add(inventory.Count, obj);
         obj.gameObject.SetActive(false);
     }
