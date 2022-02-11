@@ -8,24 +8,20 @@ public class WeaponSwap : MonoBehaviour
         inventory = GetComponent<Inventory>();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         SwapWeapons();
     }
-
-    // Functions getting called twice
     void SwapWeapons()
     {
         if (Input.GetAxis("Mouse ScrollWheel") > 0f)
         {
             inventory.NextItem();
-
         }
 
         if (Input.GetAxis("Mouse ScrollWheel") < 0f)
         {
             inventory.PreviousItem();
-
         }
 
         for (int i = 0; i < 10; i++)
@@ -33,7 +29,6 @@ public class WeaponSwap : MonoBehaviour
             if (Input.GetKeyDown("" + i))
             {
                 inventory.SelectItem(i);
-
             }
         }
 
